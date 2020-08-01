@@ -2,9 +2,10 @@ from tkinter import *
 from tkinter import messagebox
 import boto3
 import webbrowser
+import tkinter as tk
 
 # Initialize
-fields = ('AWS Access Key', 'AWS Secret Key','S3 Bucket', 'Folder to Restore (Format: folder1/folder2/)', 'Bucket Region (Example: us-east-1)',)
+fields = ('AWS Access Key', 'AWS Secret Key','S3 Bucket (Format: bucketname)', 'Folder to Restore (Format: folder1/folder2/)', 'Bucket Region (Example: us-east-1)',)
 s3_client = ''
 
 # Enable Hyperlinking
@@ -30,10 +31,8 @@ def restore_glacier_contents(entries, type):
 
    client = create_client(entries)    
 
-   # bucket = entries['AWS Secret Key'].get()
-   bucket = entries['S3 Bucket'].get()
+   bucket = entries['S3 Bucket (Format: bucketname)'].get()
    prefix = entries['Folder to Restore (Format: folder1/folder2/)'].get()
-   # prefix = entries['Folder to Restore (Format: folder1/folder2/'].get()
 
    # Try to get S3 list
    try:
@@ -50,20 +49,16 @@ def restore_glacier_contents(entries, type):
 
    file_list = []
 
-   restore_request = {
-      'OutputLocation': {
-         'S3': {
-               'BucketName': 'destination-bucket',
-               'Prefix': 'destination-prefix',
-         }
-      }
-   }
-
    # Get list of Contents
    for file in s3_result['Contents']:
       # Only Log Glacier Files
       if file['StorageClass'] == 'GLACIER':
-         response = client.restore_object(Bucket=bucket, Key=file['Key'],RestoreRequest={'Days': 14,'Tier': type})
+         if type=="Bulk":
+            response = client.restore_object(Bucket=bucket, Key=file['Key'],RestoreRequest={'Days': 14, 'GlacierJobParameters': {
+            'Tier': 'Bulk'}})
+         elif type=="Standard":
+            response = client.restore_object(Bucket=bucket, Key=file['Key'],RestoreRequest={'Days': 14, 'GlacierJobParameters': {
+            'Tier': 'Standard'}})
          file_list.append(file['Key'])
 
    # Get list of Contents when More than 1000 Items
@@ -73,7 +68,12 @@ def restore_glacier_contents(entries, type):
       for file in s3_result['Contents']:
             # Only Log Glacier Files
          if file['StorageClass'] == 'GLACIER':
-            response = client.restore_object(Bucket=bucket, Key=file['Key'],RestoreRequest={'Days': 14,'Tier': type})
+            if type=="Bulk":
+                  response = client.restore_object(Bucket=bucket, Key=file['Key'],RestoreRequest={'Days': 14, 'GlacierJobParameters': {
+               'Tier': 'Bulk'}})
+            elif type=="Standard":
+               response = client.restore_object(Bucket=bucket, Key=file['Key'],RestoreRequest={'Days': 14, 'GlacierJobParameters': {
+               'Tier': 'Standard'}})
             file_list.append(file['Key'])
 
    # Return File List
@@ -130,11 +130,26 @@ if __name__ == '__main__':
    # Init TK
    root = Tk()
 
-   # Init the Form
-   ents = makeform(root, fields)
-
    # Set Window Title
    root.title("AWS Glacier Restore to S3")
+   lab1 = Label(root, text="AWS Glacier Restore to S3", font=('Helvetica', 14))
+   lab1.pack(side = TOP)
+
+   lab2 = Label(root, text="Restoration will take a few minutes as files restore 1 by 1, program is working even if it says it is Not Responding.", font=('Helvetica', 10))
+   lab2.pack(side = TOP)
+
+   # Add Hyperlink to AWS Region Documentation
+   link2 = Label(root, text="GitHub", fg="blue", cursor="hand2")
+   link2.pack(side = BOTTOM, fill = X, padx = 5 , pady = 5)
+   link2.bind("<Button-1>", lambda e: hyperlink("https://github.com/nathanielkam/python-glacier-restore"))
+
+   # Add Hyperlink to AWS Region Documentation
+   link1 = Label(root, text="Documentation: AWS Region Codes", fg="blue", cursor="hand2")
+   link1.pack(side = TOP, fill = X, padx = 5 , pady = 5)
+   link1.bind("<Button-1>", lambda e: hyperlink("https://docs.aws.amazon.com/general/latest/gr/rande.html"))
+
+   # Init the Form
+   ents = makeform(root, fields)
 
    # Add Quit Button
    b3 = Button(root, text = 'Quit', command = root.quit)
@@ -149,11 +164,6 @@ if __name__ == '__main__':
    b2 = Button(root, text='Standard Retrieval (3-5 Hours)',
    command=(lambda e = ents: glacier_restore(e, "Standard")))
    b2.pack(side = RIGHT, padx = 5, pady = 5)
-
-   # Add Hyperlink to AWS Region Documentation
-   link1 = Label(root, text="Documentation: AWS Region Codes", fg="blue", cursor="hand2")
-   link1.pack(side = LEFT, fill = X, padx = 5 , pady = 5)
-   link1.bind("<Button-1>", lambda e: hyperlink("https://docs.aws.amazon.com/general/latest/gr/rande.html"))
 
    # Run
    root.mainloop()
