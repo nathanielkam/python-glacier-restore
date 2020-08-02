@@ -2,7 +2,7 @@
 A simple Python Script / Tkinter GUI App using the boto3 SDK to Easily Restore Glacier Files to Amazon S3. All glacier restores are charged but this app only uses bulk and standard retrieval methods so you will not incur increased expedited credit charges. 
 
 ## Requirements:
-To run from python files, you will need python 3. To run the standlone executable binary just double click the one you need in dist. 
+No requirements needed to run the app from the dist folder, just double click and it will start. To run from python files, you will need python 3. To run the standlone executable binary just double click the one you need in dist. 
 
 ### Instructions to Run the Binary Executable (recommended):
 1. Go to the dist folder
@@ -19,7 +19,7 @@ To run from python files, you will need python 3. To run the standlone executabl
 3. Run `python main.py` 
 
 ### How to use this app to restore Glacier Files to S3
-![Example Image Placeholder](https://octodex.github.com/images/yaktocat.png)
+![Glacier Restore Example](https://nathanielkam.com/wp-content/uploads/2020/08/Example.png)
 1. Enter your access key in the form of 
 2. Enter your secret key in the form of 
 3. Enter the bucket name in the form of 
