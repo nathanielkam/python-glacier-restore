@@ -6,7 +6,6 @@ import tkinter as tk
 
 # Initialize
 fields = ('AWS Access Key', 'AWS Secret Key','S3 Bucket (Format: bucketname)', 'Folder to Restore (Format: folder1/folder2/)', 'Bucket Region (Example: us-east-1)',)
-s3_client = ''
 
 # Enable Hyperlinking
 def hyperlink(url):
