@@ -21,11 +21,6 @@ def create_client(entries):
    )
    return client
 
-# Can User List files and Glacier Restore Them
-def validate_access(entries):
-   # If Failure
-   messagebox.showerror("Access Forbidden", "You do not have access to restore those files.")
-
 def restore_glacier_contents(entries, type):
 
    client = create_client(entries)    
