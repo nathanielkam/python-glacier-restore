@@ -28,3 +28,8 @@ To run from python files, you will need python 3. To run the standlone executabl
 6. Select which tier you want bulk or standard 
 7. Wait a few minutees (program currently restores file by file) 
 8. A success popup will trigger when restore request is complete (once the request is complete it will still take X hours to access your files based on the restore tier you selected). 
+
+### Rebuilding Executable if you make changes
+1. From the repo root (where main.py is)
+2. MacOSX - sudo pyinstaller main.py -n  glacier-restore-to-s3 --windowed --noconfirm --clean
+3. Windows - pyinstaller main.py -n  glacier-restore-to-s3 --windowed --noconfirm --clean
