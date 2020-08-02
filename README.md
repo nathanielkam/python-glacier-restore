@@ -20,17 +20,16 @@ No requirements needed to run the app from the dist folder, just double click an
 
 ### How to use this app to restore Glacier Files to S3
 ![Glacier Restore Example](https://nathanielkam.com/wp-content/uploads/2020/08/Example.png)
-1. Enter your access key in the form of 
-2. Enter your secret key in the form of 
-3. Enter the bucket name in the form of 
-4. Enter the folder name in the form of 
-5. Enter the bucket region in the form of 
-6. Select which tier you want bulk or standard 
+1. Enter your access key with no special characters or spaces
+2. Enter your secret key with no special characters or spaces
+3. Enter the bucket name with no special characters or spaces
+4. Enter the folder name with **NO LEADING SLASH** but make sure it **ends with a SLASH** - see photo 
+5. Enter the bucket region with no special characters or spaces see [AWS region codes!](https://docs.aws.amazon.com/general/latest/gr/rande.html)
+6. Select which tier you want **bulk** or **standard** 
 7. Wait a few minutees (program currently restores file by file) 
 8. A success popup will trigger when restore request is complete (once the request is complete it will still take X hours to access your files based on the restore tier you selected). 
 
 ### Rebuilding Executable if you make changes
 1. From the repo root (where main.py is)
 2. MacOSX - sudo pyinstaller --onefile --add-binary='/System/Library/Frameworks/Tk.framework/Tk':'tk' --add-binary='/System/Library/Frameworks/Tcl.framework/Tcl':'tcl' main.py -n glacier-restore-to-s3 --windowed --noconfirm --clean
-
 3. Windows - pyinstaller main.py -n  glacier-restore-to-s3 --windowed --noconfirm --clean
