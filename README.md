@@ -32,4 +32,4 @@ No requirements needed to run the app from the dist folder, just double click an
 ### Rebuilding Executable if you make changes
 1. From the repo root (where main.py is)
 2. MacOSX - sudo pyinstaller --onefile --add-binary='/System/Library/Frameworks/Tk.framework/Tk':'tk' --add-binary='/System/Library/Frameworks/Tcl.framework/Tcl':'tcl' main.py -n glacier-restore-to-s3 --windowed --noconfirm --clean
-3. Windows - pyinstaller main.py -n  glacier-restore-to-s3 --windowed --noconfirm --clean
+3. Windows - pyinstaller main.py -n glacier-restore-to-s3 --onefile --windowed --noconfirm --clean
