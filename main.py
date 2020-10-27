@@ -58,7 +58,7 @@ def restore_glacier_contents(entries, type):
    # Get list of Contents when More than 1000 Items
    while s3_result['IsTruncated']:
       continuation_key = s3_result['NextContinuationToken']
-      s3_result = s3_conn.list_objects_v2(Bucket=bucket, Prefix=prefix, Delimiter="/", ContinuationToken=continuation_key)
+      s3_result = client.list_objects_v2(Bucket=bucket, Prefix=prefix, ContinuationToken=continuation_key)
       for file in s3_result['Contents']:
             # Only Log Glacier Files
          if file['StorageClass'] == 'GLACIER':
