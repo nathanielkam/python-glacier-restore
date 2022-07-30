@@ -1,3 +1,5 @@
+For an entire overview of how this app was created as well as how to use see - https://nathanielkam.com/easy-amazon-glacier-restore-files-folders/
+
 # python-glacier-restore
 A simple Python Script / Tkinter GUI App using the boto3 SDK to Easily Restore Glacier Files to Amazon S3. All glacier restores are charged but this app only uses bulk and standard retrieval methods so you will not incur increased expedited credit charges. 
 
